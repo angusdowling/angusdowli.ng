@@ -1,0 +1,11 @@
+# Cloudflare Pages configuration
+# This file is optional - Cloudflare Pages auto-detects Vite projects
+# You can deploy directly from the dashboard or CLI without this file
+
+name = "angusdowli-ng"
+compatibility_date = "2024-12-01"
+
+# If you want to use Cloudflare Workers features, configure here
+# [site]
+# bucket = "./dist"
+

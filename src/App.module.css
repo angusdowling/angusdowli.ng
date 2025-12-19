@@ -1,0 +1,152 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: space-between;
+  height: 75px;
+  left: 0;
+  right: 0;
+  padding: 0 75px;
+  top: 0;
+  z-index: 2;
+  width: 100%;
+  background: white;
+  height: 75px;
+}
+
+.footer {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  height: 75px;
+  left: 0;
+  padding: 0 75px;
+  bottom: 0;
+  z-index: 2;
+  background: white;
+  height: 75px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.socialList {
+  display: flex;
+  list-style-type: none;
+  gap: 24px;
+}
+
+.socialList a {
+  color: black;
+  font-weight: 100;
+}
+
+.border {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px;
+  pointer-events: none;
+  flex-grow: 1;
+  border-left: 75px solid white;
+  border-right: 75px solid white;
+  overflow: auto;
+  flex: 1 1 auto;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.title,
+.footerItem {
+  font-size: 24px;
+  font-weight: 200;
+  margin: 0;
+  color: #000;
+  border: 0;
+  z-index: 2;
+}
+
+.title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footerItem {
+  font-size: 16px;
+}
+
+.subtitle {
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  font-weight: 300;
+  text-transform: uppercase;
+  color: #000;
+}
+
+.navList {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navList li {
+  transition: opacity 0.3s ease;
+}
+
+.navList:hover li {
+  opacity: 0.5;
+}
+
+.navList li:hover {
+  opacity: 1;
+}
+
+.navList a {
+  text-decoration: none;
+  color: black;
+  font-weight: 200;
+  position: relative;
+  display: inline-block;
+}
+
+.navList a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: black;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.navList a:hover::after,
+.navList a.active::after {
+  transform: scaleX(1);
+}
+
+.content {
+  display: flex;
+  justify-content: flex-end;
+  padding: 75px;
+}
+
+.routes {
+  flex: 0 1 auto;
+  padding: 40px 50px;
+  /* padding: 20px 0 40px 120px; */
+  /* background: white; */
+}

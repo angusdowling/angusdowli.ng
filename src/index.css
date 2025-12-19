@@ -11,14 +11,14 @@ body,
 #root {
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
+  /* overflow: hidden; */
 }
 
 body {
-  font-family: 'Hanken Grotesk', system-ui, sans-serif;
+  font-family: "Hanken Grotesk", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #000;
   color: #fff;
 }
-

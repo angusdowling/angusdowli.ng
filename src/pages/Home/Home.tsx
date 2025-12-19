@@ -4,10 +4,6 @@ export function Home() {
   return (
     <section className={styles.hero}>
       <p className={styles.manifesto}>
-        Born in Melbourne,
-        <br />
-        Australia.
-        <br />
         I believe in beauty,
         <br />
         emotion, connection.
@@ -29,4 +25,3 @@ export function Home() {
     </section>
   );
 }
-

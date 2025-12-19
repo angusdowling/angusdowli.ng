@@ -12,9 +12,13 @@ const UNIFORM_NAMES = ["iResolution", "iTime", "iMouse"];
 
 interface ShaderBackgroundProps {
   className?: string;
+  debug?: boolean;
 }
 
-export function ShaderBackground({ className = "" }: ShaderBackgroundProps) {
+export function ShaderBackground({
+  className = "",
+  debug = false,
+}: ShaderBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const uniformNames = useMemo(() => UNIFORM_NAMES, []);
@@ -33,18 +37,21 @@ export function ShaderBackground({ className = "" }: ShaderBackgroundProps) {
     scaleToDpr: true,
   });
 
-  useAnimationFrame(({ time, deltaTime }) => {
-    const canvas = canvasRef.current;
-    if (!gl || !program || !canvas) return;
+  useAnimationFrame(
+    ({ time, deltaTime }) => {
+      const canvas = canvasRef.current;
+      if (!gl || !program || !canvas) return;
 
-    const mousePos = mouse.update(deltaTime);
+      const mousePos = mouse.update(deltaTime);
 
-    gl.useProgram(program);
-    gl.uniform2f(uniforms.iResolution, canvas.width, canvas.height);
-    gl.uniform1f(uniforms.iTime, time);
-    gl.uniform4f(uniforms.iMouse, mousePos.x, mousePos.y, 1, 0);
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-  });
+      gl.useProgram(program);
+      gl.uniform2f(uniforms.iResolution, canvas.width, canvas.height);
+      gl.uniform1f(uniforms.iTime, time);
+      gl.uniform4f(uniforms.iMouse, mousePos.x, mousePos.y, 1, 0);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    },
+    { debug }
+  );
 
   return (
     <canvas

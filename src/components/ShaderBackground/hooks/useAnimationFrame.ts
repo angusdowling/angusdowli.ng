@@ -7,11 +7,23 @@ interface FrameData {
 
 type FrameCallback = (frame: FrameData) => void;
 
-export function useAnimationFrame(callback: FrameCallback) {
+interface AnimationFrameOptions {
+  debug?: boolean;
+  logInterval?: number; // How many frames between logs (default: 60)
+}
+
+export function useAnimationFrame(
+  callback: FrameCallback,
+  options: AnimationFrameOptions = {}
+) {
+  const { debug = false, logInterval = 60 } = options;
+
   const frameRef = useRef<number>(0);
   const startTimeRef = useRef(Date.now());
   const lastFrameRef = useRef(Date.now());
   const callbackRef = useRef(callback);
+  const fpsHistoryRef = useRef<number[]>([]);
+  const frameTimesRef = useRef<number[]>([]);
 
   callbackRef.current = callback;
 
@@ -22,6 +34,37 @@ export function useAnimationFrame(callback: FrameCallback) {
       const time = (now - startTimeRef.current) / 1000;
       lastFrameRef.current = now;
 
+      // Performance tracking
+      if (debug && deltaTime > 0) {
+        const fps = 1 / deltaTime;
+        const frameTimeMs = deltaTime * 1000;
+
+        fpsHistoryRef.current.push(fps);
+        frameTimesRef.current.push(frameTimeMs);
+
+        if (fpsHistoryRef.current.length >= logInterval) {
+          const avgFps =
+            fpsHistoryRef.current.reduce((a, b) => a + b) /
+            fpsHistoryRef.current.length;
+          const minFps = Math.min(...fpsHistoryRef.current);
+          const maxFps = Math.max(...fpsHistoryRef.current);
+          const avgFrameTime =
+            frameTimesRef.current.reduce((a, b) => a + b) /
+            frameTimesRef.current.length;
+
+          console.log(
+            `[Shader] FPS: ${avgFps.toFixed(1)} (min: ${minFps.toFixed(
+              1
+            )}, max: ${maxFps.toFixed(1)}) | Frame: ${avgFrameTime.toFixed(
+              2
+            )}ms`
+          );
+
+          fpsHistoryRef.current = [];
+          frameTimesRef.current = [];
+        }
+      }
+
       callbackRef.current({ time, deltaTime });
       frameRef.current = requestAnimationFrame(animate);
     };
@@ -29,5 +72,5 @@ export function useAnimationFrame(callback: FrameCallback) {
     frameRef.current = requestAnimationFrame(animate);
 
     return () => cancelAnimationFrame(frameRef.current);
-  }, []);
+  }, [debug, logInterval]);
 }

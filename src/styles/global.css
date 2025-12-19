@@ -17,28 +17,28 @@
   --font-weight-medium: 300;
   --font-weight-semibold: 400;
 
-  --font-size-xs: 12px;
-  --font-size-sm: 14px;
-  --font-size-base: 16px;
-  --font-size-lg: 20px;
-  --font-size-xl: 24px;
-  --font-size-2xl: 28px;
+  --font-size-xs: clamp(10px, 2vw, 12px);
+  --font-size-sm: clamp(12px, 2.5vw, 14px);
+  --font-size-base: clamp(14px, 3vw, 16px);
+  --font-size-lg: clamp(16px, 3.5vw, 20px);
+  --font-size-xl: clamp(18px, 4vw, 24px);
+  --font-size-2xl: clamp(20px, 5vw, 28px);
 
   --line-height-tight: 1.2;
   --line-height-base: 1.5;
   --line-height-relaxed: 1.75;
 
   /* Spacing */
-  --space-xs: 8px;
-  --space-sm: 16px;
-  --space-md: 24px;
-  --space-lg: 40px;
-  --space-xl: 50px;
-  --space-2xl: 75px;
+  --space-xs: clamp(4px, 1.5vw, 8px);
+  --space-sm: clamp(12px, 3vw, 16px);
+  --space-md: clamp(16px, 4vw, 24px);
+  --space-lg: clamp(24px, 6vw, 40px);
+  --space-xl: clamp(32px, 8vw, 50px);
+  --space-2xl: clamp(40px, 10vw, 75px);
 
   /* Layout */
   --header-height: 75px;
-  --gutter: 75px;
+  --gutter: clamp(0px, calc(10vw - 48px), 75px);
 
   /* Z-index */
   --z-background: -1;

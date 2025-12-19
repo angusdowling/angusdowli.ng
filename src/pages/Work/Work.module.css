@@ -10,6 +10,10 @@
   color: var(--color-text-primary);
   font-weight: var(--font-weight-light);
   transition: opacity var(--transition-base);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 /* Fade siblings on hover */

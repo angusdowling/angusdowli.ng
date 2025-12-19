@@ -3,12 +3,36 @@ import styles from "./Work.module.css";
 
 const projects = [
   {
-    title: "Plus Also",
+    title: "Video Rendering Platform",
     role: "Software Engineer",
     company: "Plus Also",
     year: 2025,
     blurb:
-      "Developed the full platform stack: design-to-production plugins for Figma and InDesign with AI-powered layout matching, a Cloudflare-based distributed video rendering system with Apple Silicon nodes, and content intelligence tools for automated catalogue processing and multi-tenant campaign management.",
+      "Built a distributed video rendering system using Cloudflare Workers and Hono for the API layer, Neon PostgreSQL for job orchestration, and Cloudflare Queues for distributed processing. Apple Silicon Mac Mini nodes poll the queue, render After Effects templates, and upload outputs to R2 storage. Features presigned URL uploads, automatic retries, and horizontal scaling across multiple render nodes.",
+  },
+  {
+    title: "Creative Automation Pipeline",
+    role: "Software Engineer",
+    company: "Plus Also",
+    year: 2025,
+    blurb:
+      "Built design-to-production plugins for Figma and InDesign that automate digital advertising workflows. Features include DAM integration, AI-powered layout matching, template-driven asset generation, Google Web Designer banner export, and component library management. Backend services built with NestJS handle image processing, OpenAI integration, and S3 storage for cross-platform asset delivery.",
+  },
+  {
+    title: "ContentAI",
+    role: "Software Engineer",
+    company: "Plus Also",
+    year: 2025,
+    blurb:
+      "Developed an AI-powered asset intelligence tool with a conversational interface for image discovery and placement suggestions. Features client-specific configurations for CFS, Petbarn, and GreenCross, with automated image analysis and smart placement recommendations for marketing materials.",
+  },
+  {
+    title: "EDM Campaign Builder",
+    role: "Software Engineer",
+    company: "Plus Also",
+    year: 2025,
+    blurb:
+      "Built a multi-tenant EDM creation platform with a Next.js frontend and WordPress/PHP backend. Features a drag-and-drop module builder with pre-approved client components, category-based organisation, and Salesforce Marketing Cloud integration. Deployed across Petbarn, Endeavour Group, Langtons, and Domain with AWS ECS/EFS/RDS infrastructure managed via Terraform.",
   },
   {
     title: "BWS",

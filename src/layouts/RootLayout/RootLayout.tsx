@@ -7,7 +7,7 @@ const NAV_ITEMS = [
   { label: "Work", to: "/work" },
   // { label: "Notes", to: "/notes" },
   { label: "Contact", to: "/contact" },
-  { label: "Resume", to: "/resume.pdf", external: true },
+  { label: "Résumé", to: "/resume.pdf", external: true },
 ];
 
 const SOCIAL_LINKS = [

@@ -1,16 +1,16 @@
 import { Link, NavLink } from "react-router-dom";
-import { Github, Linkedin } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
 import { ShaderBackground, AnimatedRoutes } from "../../components";
 import styles from "./RootLayout.module.css";
 
 const NAV_ITEMS = [
   { label: "Work", to: "/work" },
   // { label: "Notes", to: "/notes" },
-  { label: "Contact", to: "/contact" },
   { label: "Résumé", to: "/resume.pdf", external: true },
 ];
 
 const SOCIAL_LINKS = [
+  { label: "Email", href: "mailto:hi@angusdowli.ng", icon: Mail },
   { label: "GitHub", href: "https://github.com/angusdowling", icon: Github },
   {
     label: "LinkedIn",

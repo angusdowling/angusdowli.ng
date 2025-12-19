@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./Work.module.css";
 
 const projects = [
@@ -150,13 +150,40 @@ const projects = [
 
 export function Work() {
   const [activeProject, setActiveProject] = useState<string | null>(null);
+  const listRef = useRef<HTMLUListElement>(null);
 
   const handleClick = (title: string) => {
     setActiveProject(activeProject === title ? null : title);
   };
 
+  const closeBlurb = () => setActiveProject(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeBlurb();
+      }
+    };
+
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (listRef.current && !target.closest("button")) {
+        closeBlurb();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
     <ul
+      ref={listRef}
       className={`${styles.list} ${activeProject ? styles.listHasActive : ""}`}
     >
       {projects.map((project) => {

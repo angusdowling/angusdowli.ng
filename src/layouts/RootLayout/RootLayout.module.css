@@ -14,7 +14,7 @@
   align-items: center;
   justify-content: space-between;
   height: var(--header-height);
-  padding: 0 var(--gutter);
+  padding: 0 clamp(20px, calc(10vw - 48px), 75px);
   background: var(--color-surface);
 }
 
@@ -28,7 +28,7 @@
   align-items: center;
   justify-content: space-between;
   height: var(--header-height);
-  padding: 0 var(--gutter);
+  padding: 0 clamp(20px, calc(10vw - 48px), 75px);
   background: var(--color-surface);
 }
 
@@ -112,7 +112,7 @@
 .main {
   display: flex;
   justify-content: flex-end;
-  padding: var(--gutter);
+  padding: 75px var(--gutter);
 }
 
 .content {

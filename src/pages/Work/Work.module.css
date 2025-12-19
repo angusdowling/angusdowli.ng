@@ -16,13 +16,15 @@
   align-items: flex-end;
 }
 
-/* Fade siblings on hover */
-.list:has(button:hover) .item {
-  opacity: 0.3;
-}
+/* Fade siblings on hover (laptop+) */
+@media (min-width: 1024px) {
+  .list:has(button:hover) .item {
+    opacity: 0.3;
+  }
 
-.item:has(button:hover) {
-  opacity: 1 !important;
+  .item:has(button:hover) {
+    opacity: 1 !important;
+  }
 }
 
 /* Fade siblings when active */
@@ -36,7 +38,7 @@
 
 .title {
   margin: 0;
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl);
   font-weight: var(--font-weight-light);
   text-transform: uppercase;
   text-align: right;
@@ -63,7 +65,7 @@
 }
 
 .descriptionVisible {
-  max-height: 200px;
+  max-height: 300px;
   margin-top: var(--space-xs);
   opacity: 1;
 }

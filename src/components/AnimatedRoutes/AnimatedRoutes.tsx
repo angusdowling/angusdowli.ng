@@ -1,6 +1,6 @@
 import { useLocation, Routes, Route } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Home, Work, Notes } from "../../pages";
+import { Home, Work, Notes, NotFound } from "../../pages";
 import styles from "./AnimatedRoutes.module.css";
 
 export function AnimatedRoutes() {
@@ -20,6 +20,7 @@ export function AnimatedRoutes() {
           <Route path="/" element={<Home />} />
           <Route path="/work" element={<Work />} />
           <Route path="/notes" element={<Notes />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.div>
     </AnimatePresence>

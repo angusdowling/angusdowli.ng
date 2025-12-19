@@ -1,0 +1,120 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-sticky);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+  padding: 0 var(--gutter);
+  background: var(--color-surface);
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-sticky);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+  padding: 0 var(--gutter);
+  background: var(--color-surface);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
+}
+
+.footerText {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
+}
+
+.nav {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.nav li {
+  transition: opacity var(--transition-base);
+}
+
+.nav:hover li {
+  opacity: 0.5;
+}
+
+.nav li:hover {
+  opacity: 1;
+}
+
+.navLink {
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
+  position: relative;
+  display: inline-block;
+}
+
+.navLink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-text-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-base);
+}
+
+.navLink:hover::after,
+.navLinkActive::after {
+  transform: scaleX(1);
+}
+
+.socialLinks {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.socialLinks a {
+  color: var(--color-text-primary);
+  transition: opacity var(--transition-base);
+}
+
+.socialLinks a:hover {
+  opacity: 0.5;
+}
+
+.frame {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-content);
+  border-left: var(--gutter) solid var(--color-surface);
+  border-right: var(--gutter) solid var(--color-surface);
+  pointer-events: none;
+}
+
+.main {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--gutter);
+}
+
+.content {
+  padding: var(--space-lg) var(--space-xl);
+}

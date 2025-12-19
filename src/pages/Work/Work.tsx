@@ -132,32 +132,32 @@ export function Work() {
   };
 
   return (
-    <div>
-      <ul className={`${styles.list} ${activeProject ? styles.hasActive : ""}`}>
-        {projects.map((project) => {
-          const isActive = activeProject === project.title;
-          return (
-            <li
-              key={project.title}
-              className={`${styles.item} ${isActive ? styles.active : ""}`}
+    <ul
+      className={`${styles.list} ${activeProject ? styles.listHasActive : ""}`}
+    >
+      {projects.map((project) => {
+        const isActive = activeProject === project.title;
+        return (
+          <li
+            key={project.title}
+            className={`${styles.item} ${isActive ? styles.itemActive : ""}`}
+          >
+            <button onClick={() => handleClick(project.title)}>
+              <p className={styles.title}>{project.title}</p>
+            </button>
+            <div
+              className={`${styles.description} ${
+                isActive ? styles.descriptionVisible : ""
+              }`}
             >
-              <button onClick={() => handleClick(project.title)}>
-                <p className={styles.title}>{project.title}</p>
-              </button>
-              <div
-                className={`${styles.blurb} ${
-                  isActive ? styles.blurbOpen : ""
-                }`}
-              >
-                <p className={styles.subtitle}>
-                  {project.role}, {project.company}, {project.year}
-                </p>
-                <p>{project.blurb}</p>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+              <p className={styles.meta}>
+                {project.role}, {project.company}, {project.year}
+              </p>
+              <p>{project.blurb}</p>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
   );
 }

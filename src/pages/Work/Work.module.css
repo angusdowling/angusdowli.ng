@@ -1,0 +1,64 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-sm);
+  text-align: right;
+}
+
+.item {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-light);
+  transition: opacity var(--transition-base);
+}
+
+/* Fade siblings on hover */
+.list:has(button:hover) .item {
+  opacity: 0.3;
+}
+
+.item:has(button:hover) {
+  opacity: 1 !important;
+}
+
+/* Fade siblings when active */
+.listHasActive .item {
+  opacity: 0.3;
+}
+
+.itemActive {
+  opacity: 1 !important;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-light);
+  text-transform: uppercase;
+}
+
+.meta {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  margin: 0;
+}
+
+.description {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  max-width: 450px;
+  max-height: 0;
+  margin: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.description p {
+  margin: 0;
+}
+
+.descriptionVisible {
+  max-height: 200px;
+  margin-top: var(--space-xs);
+  opacity: 1;
+}

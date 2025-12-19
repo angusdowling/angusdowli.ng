@@ -1,6 +1,6 @@
 import { useLocation, Routes, Route } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Home, Work, Notes, Contact } from "../pages";
+import { Home, Work, Notes, Contact } from "../../pages";
 import styles from "./AnimatedRoutes.module.css";
 
 export function AnimatedRoutes() {

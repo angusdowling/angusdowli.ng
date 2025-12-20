@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  min-height: calc(100vh - (var(--header-height) * 2) - (var(--space-lg) * 2));
+  min-height: calc(100dvh - (var(--header-height) * 2) - (var(--space-lg) * 2));
   gap: var(--space-xs);
 }
 

@@ -23,70 +23,68 @@ export function RootLayout() {
   return (
     <>
       <ShaderBackground />
-      <div className={styles.layout}>
-        <header className={styles.header}>
-          <h1 className={styles.title}>
-            <Link to="/">Angus Dowling</Link>
-          </h1>
+      <header className={styles.header}>
+        <h1 className={styles.title}>
+          <Link to="/">Angus Dowling</Link>
+        </h1>
 
-          <nav>
-            <ul className={styles.nav}>
-              {NAV_ITEMS.map(({ label, to, external }) => (
-                <li key={to}>
-                  {external ? (
-                    <a
-                      href={to}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.navLink}
-                    >
-                      {label}
-                    </a>
-                  ) : (
-                    <NavLink
-                      to={to}
-                      className={({ isActive }) =>
-                        `${styles.navLink} ${
-                          isActive ? styles.navLinkActive : ""
-                        }`
-                      }
-                    >
-                      {label}
-                    </NavLink>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </header>
-
-        <main className={styles.main}>
-          <div className={styles.frame} />
-          <div className={styles.content}>
-            <AnimatedRoutes />
-          </div>
-        </main>
-
-        <footer className={styles.footer}>
-          <p className={styles.footerText}>
-            Software Engineer <br /> based in Australia
-          </p>
-          <ul className={styles.socialLinks}>
-            {SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
-              <li key={href}>
-                <a
-                  href={href}
-                  aria-label={label}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Icon size={20} strokeWidth={1} />
-                </a>
+        <nav>
+          <ul className={styles.nav}>
+            {NAV_ITEMS.map(({ label, to, external }) => (
+              <li key={to}>
+                {external ? (
+                  <a
+                    href={to}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.navLink}
+                  >
+                    {label}
+                  </a>
+                ) : (
+                  <NavLink
+                    to={to}
+                    className={({ isActive }) =>
+                      `${styles.navLink} ${
+                        isActive ? styles.navLinkActive : ""
+                      }`
+                    }
+                  >
+                    {label}
+                  </NavLink>
+                )}
               </li>
             ))}
           </ul>
-        </footer>
-      </div>
+        </nav>
+      </header>
+
+      <main className={styles.main}>
+        <div className={styles.frame} />
+        <div className={styles.content}>
+          <AnimatedRoutes />
+        </div>
+      </main>
+
+      <footer className={styles.footer}>
+        <p className={styles.footerText}>
+          Software Engineer <br /> based in Australia
+        </p>
+        <ul className={styles.socialLinks}>
+          {SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
+            <li key={href}>
+              <a
+                href={href}
+                aria-label={label}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon size={20} strokeWidth={1} />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </footer>
     </>
   );
 }

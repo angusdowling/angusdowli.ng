@@ -167,7 +167,9 @@ export function Work() {
 
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (listRef.current && !target.closest("button")) {
+      const isButton = target.closest("button");
+      const isDescription = target.closest(`.${styles.description}`);
+      if (listRef.current && !isButton && !isDescription) {
         closeBlurb();
       }
     };

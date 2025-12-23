@@ -1,3 +1,11 @@
+.mainStacked .header {
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.mainStacked .footer {
+  border-top: 1px solid #f5f5f5;
+}
+
 .header {
   position: fixed;
   top: 0;
@@ -13,10 +21,6 @@
 }
 
 .footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   z-index: var(--z-sticky);
   display: flex;
   align-items: center;
@@ -94,21 +98,59 @@
   opacity: 0.5;
 }
 
+.main {
+  position: relative;
+}
+
+/* Frame - always fixed, height transitions between modes */
 .frame {
-  position: fixed;
-  inset: 0;
+  position: relative;
+  margin-top: var(--header-height);
+  overflow: hidden;
   z-index: var(--z-content);
+  pointer-events: none;
+  border-left: 0px solid white;
+  border-right: 0px solid white;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Content - transitions padding and height */
+.content {
+  position: relative;
+  z-index: var(--z-content);
+  transition: padding 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    min-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.content * {
+  pointer-events: auto;
+}
+
+/* Overlay mode: content superimposed on shader (for homepage) */
+.mainOverlay .frame {
+  height: calc(100dvh - var(--header-height) - 75px);
   border-left: var(--gutter) solid var(--color-surface);
   border-right: var(--gutter) solid var(--color-surface);
+}
+
+.mainOverlay .content {
   pointer-events: none;
 }
 
-.main {
-  display: flex;
-  justify-content: flex-end;
-  padding: 75px var(--gutter);
+/* Stacked mode: content below shader (for work page) */
+.mainStacked .frame {
+  height: 75dvh;
 }
 
-.content {
-  padding: var(--space-lg) var(--space-xl);
+.mainStacked .content {
+  min-height: auto;
+}
+
+.main canvas {
+  width: 100% !important;
+  height: auto !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { Github, Linkedin, Mail } from "lucide-react";
 import { ShaderBackground, AnimatedRoutes } from "../../components";
 import styles from "./RootLayout.module.css";
@@ -20,9 +20,16 @@ const SOCIAL_LINKS = [
 ];
 
 export function RootLayout() {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+  const isWork = location.pathname === "/work";
+
   return (
-    <>
-      <ShaderBackground />
+    <div
+      className={`${styles.main} ${
+        isHome || isWork ? styles.mainOverlay : styles.mainStacked
+      }`}
+    >
       <header className={styles.header}>
         <h1 className={styles.title}>
           <Link to="/">Angus Dowling</Link>
@@ -59,8 +66,11 @@ export function RootLayout() {
         </nav>
       </header>
 
-      <main className={styles.main}>
-        <div className={styles.frame} />
+      <main>
+        <div className={styles.frame}>
+          <ShaderBackground />
+        </div>
+
         <div className={styles.content}>
           <AnimatedRoutes />
         </div>
@@ -85,6 +95,6 @@ export function RootLayout() {
           ))}
         </ul>
       </footer>
-    </>
+    </div>
   );
 }

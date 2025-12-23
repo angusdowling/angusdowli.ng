@@ -2,14 +2,17 @@ import { useEffect } from "react";
 
 export function useCanvasResize(
   canvasRef: React.RefObject<HTMLCanvasElement | null>,
-  gl: WebGL2RenderingContext | null
+  gl: WebGL2RenderingContext | null,
+  resolutionScale: number = 1.0
 ) {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || !gl) return;
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio, 2);
+      // Apply resolution scale for performance
+      // 0.5 = half resolution (4x faster), 1.0 = full resolution
+      const dpr = Math.min(window.devicePixelRatio, 2) * resolutionScale;
       canvas.width = window.innerWidth * dpr;
       canvas.height = window.innerHeight * dpr;
       canvas.style.width = `${window.innerWidth}px`;
@@ -20,6 +23,5 @@ export function useCanvasResize(
     resize();
     window.addEventListener("resize", resize);
     return () => window.removeEventListener("resize", resize);
-  }, [canvasRef, gl]);
+  }, [canvasRef, gl, resolutionScale]);
 }
-

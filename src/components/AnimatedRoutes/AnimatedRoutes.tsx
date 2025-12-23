@@ -1,7 +1,7 @@
 import { useLayoutEffect } from "react";
 import { useLocation, Routes, Route } from "react-router-dom";
 import { AnimatePresence, motion, animate } from "framer-motion";
-import { Home, Work, CaseStudy, Notes, NotFound } from "../../pages";
+import { Home, Work, CaseStudy, Notes, Note, NotFound } from "../../pages";
 import styles from "./AnimatedRoutes.module.css";
 
 export function AnimatedRoutes() {
@@ -34,6 +34,7 @@ export function AnimatedRoutes() {
           <Route path="/work" element={<Work />} />
           <Route path="/work/:slug" element={<CaseStudy />} />
           <Route path="/notes" element={<Notes />} />
+          <Route path="/notes/:slug" element={<Note />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.div>

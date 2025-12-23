@@ -5,7 +5,7 @@ import styles from "./RootLayout.module.css";
 
 const NAV_ITEMS = [
   { label: "Work", to: "/work" },
-  // { label: "Notes", to: "/notes" },
+  { label: "Notes", to: "/notes" },
   { label: "Résumé", to: "/resume.pdf", external: true },
 ];
 
@@ -23,13 +23,17 @@ export function RootLayout() {
   const location = useLocation();
   const isHome = location.pathname === "/";
   const isWork = location.pathname === "/work";
+  const isNotes = location.pathname === "/notes";
+  const isNote = location.pathname.startsWith("/notes/");
+
+  const getLayoutClass = () => {
+    if (isHome || isWork || isNotes) return styles.mainOverlay;
+    if (isNote) return styles.mainNote;
+    return styles.mainStacked;
+  };
 
   return (
-    <div
-      className={`${styles.main} ${
-        isHome || isWork ? styles.mainOverlay : styles.mainStacked
-      }`}
-    >
+    <div className={`${styles.main} ${getLayoutClass()}`}>
       <header className={styles.header}>
         <h1 className={styles.title}>
           <Link to="/">Angus Dowling</Link>

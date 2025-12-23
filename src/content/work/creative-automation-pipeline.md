@@ -31,3 +31,4 @@ The same spreadsheet can drive both plugins. Figma for digital banners. InDesign
 The Figma plugin exports to multiple formats depending on the channel. Static images for display ads. Google Web Designer projects for animated banners with proper timeline and interaction support. The InDesign plugin outputs print-ready documents with correct colour profiles and bleed.
 
 Production teams used to spend days generating these variants manually. Now the same work takes minutes, and the results are consistent because they all come from the same template.
+

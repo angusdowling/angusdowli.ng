@@ -14,7 +14,7 @@ const float CLOUD_NOISE_SCALE = 0.5;
 const float CLOUD_NOISE_SPEED = 0.1;
 
 // Visibility threshold - lower = more visible cloud (range: -1.5 to 0.0, default: -0.5)
-const float CLOUD_THRESHOLD_LOW = -1.25;
+const float CLOUD_THRESHOLD_LOW = -1.0;
 
 // Contrast control - lower = denser/more opaque cloud (range: 0.5 to 2.0, default: 1.2)
 const float CLOUD_THRESHOLD_HIGH = 1.1;

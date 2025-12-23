@@ -51,3 +51,4 @@ This separation means the transformation logic doesn't need to know about design
 Each pipeline is specific to a client and asset type. A catalogue pipeline handles the particular layout rules and data format for that client's catalogues. An email pipeline handles different rules for email modules. The underlying patterns are similar, but the specific field mappings and business logic vary.
 
 The work spans several retail clients across liquor, department stores, and specialty retail. Each has their own source data format, their own jurisdiction rules, and their own output requirements. The pipelines encode all of this in executable form so that what used to take days of manual production now takes minutes.
+

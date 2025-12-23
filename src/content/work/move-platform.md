@@ -57,3 +57,4 @@ The frontend is Next.js with server-side rendering. The backend is .NET with Ent
 Infrastructure is Terraform on AWS. ECS runs the API and web containers. CloudFront handles CDN and image transformation. The map tilesets live in Mapbox's infrastructure and get updated through their API when site data changes.
 
 Database migrations use graphile-migrate with a committed/current split. This keeps migrations reviewable while allowing iterative development on the current schema.
+

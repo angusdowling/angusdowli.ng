@@ -52,3 +52,4 @@ Video renders take 5 to 30 minutes or more. Machines crash, networks drop, proce
 Each job has a visibility timeout. If a node crashes or disconnects, the job returns to the queue after the timeout expires. Long-running renders send heartbeat updates to extend their lease. Graceful shutdown catches termination signals and re-queues in-progress work.
 
 This is standard queue semantics, but it matters for long jobs. A 20-minute render failing at minute 19 and silently disappearing would be a bad experience. Jobs either complete successfully or fail with a logged error. Nothing gets lost.
+

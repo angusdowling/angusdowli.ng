@@ -75,3 +75,4 @@ This was a design engagement. The deliverable was a technical solution design do
 - Rendition strategy for multi-channel delivery
 
 The client's team took the design through implementation. I wasn't involved in the build phase, so I can't speak to what changed between design and delivery.
+

@@ -55,3 +55,4 @@ This turns a one-time extraction into an ongoing content workflow. The same cata
 ## Output
 
 The processor outputs extracted images matched to their metadata. Users review products, generate and refine copy, then export to spreadsheet. The spreadsheet maps each SKU to its generated description and image filename, ready for import into ecommerce platforms or asset management systems.
+

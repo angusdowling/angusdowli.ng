@@ -9,7 +9,10 @@ Personal portfolio website featuring an interactive WebGL shader background with
 - **React Router** for client-side routing
 - **Framer Motion** for page transitions
 - **WebGL 2.0** for shader-based visuals
+- **react-markdown** for rendering markdown content
+- **Lucide React** for icons
 - **CSS Modules** with design tokens
+- **Cloudflare Pages** for deployment
 
 ## Getting Started
 
@@ -33,18 +36,32 @@ npm run preview
 src/
 ├── components/           # Reusable components
 │   ├── AnimatedRoutes/   # Page transition wrapper
+│   ├── Markdown/         # Markdown renderer component
 │   └── ShaderBackground/ # WebGL shader canvas
 │       ├── hooks/        # WebGL-specific hooks
 │       └── shaders/      # GLSL vertex/fragment shaders
+│
+├── content/              # Markdown content files
+│   ├── notes/            # Blog/notes content
+│   └── work/             # Case study content
+│
+├── context/              # React context providers
+│   └── ShaderContext     # Shader state management
+│
+├── data/                 # Static data definitions
+│   ├── posts.ts          # Notes/posts data
+│   └── projects.ts       # Project metadata
 │
 ├── layouts/              # Layout components
 │   └── RootLayout/       # Main app shell (header, footer, frame)
 │
 ├── pages/                # Route pages
-│   ├── Home/
-│   ├── Work/
-│   ├── Contact/
-│   └── Notes/
+│   ├── CaseStudy/        # Individual project case study
+│   ├── Home/             # Landing page
+│   ├── Note/             # Individual note page
+│   ├── Notes/            # Notes listing
+│   ├── NotFound/         # 404 page
+│   └── Work/             # Work/projects listing
 │
 ├── styles/
 │   └── global.css        # Design tokens & base styles
@@ -93,15 +110,17 @@ Custom hooks handle WebGL concerns:
 - `useAnimationFrame` - Render loop with delta time
 - `useSmoothMouse` - Interpolated mouse position
 - `useCanvasResize` - DPR-aware canvas sizing
+- `useCanvasVisibility` - Pause rendering when not visible
 
 ## Scripts
 
-| Command           | Description                         |
-| ----------------- | ----------------------------------- |
-| `npm run dev`     | Start dev server at localhost:5173  |
-| `npm run build`   | Type-check and build for production |
-| `npm run preview` | Preview production build locally    |
-| `npm run lint`    | Run ESLint                          |
+| Command           | Description                          |
+| ----------------- | ------------------------------------ |
+| `npm run dev`     | Start dev server at localhost:5173   |
+| `npm run build`   | Type-check and build for production  |
+| `npm run preview` | Preview production build locally     |
+| `npm run lint`    | Run ESLint                           |
+| `npm run deploy`  | Build and deploy to Cloudflare Pages |
 
 ## License
 

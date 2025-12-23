@@ -82,7 +82,7 @@ export function RootLayout() {
 
       <footer className={styles.footer}>
         <p className={styles.footerText}>
-          Software Engineer <br /> based in Australia
+          Product Software Engineer <br /> based in Australia
         </p>
         <ul className={styles.socialLinks}>
           {SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (

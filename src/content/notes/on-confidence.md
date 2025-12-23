@@ -34,4 +34,4 @@ The truth is that confidence doesn’t come from being validated by others. It c
 
 As Timothée Chalamet so eloquently put it "You can be the master of your fate, you can be the captain of your soul, but you have to realise that life is coming from you and not at you, and that takes time".
 
-To me, this is permission to let go. Forget external validation. Forget past failures. What matters is that you keep moving.
+To me, this is permission to let go. Forget external validation. Learn from past failures. Keep moving.

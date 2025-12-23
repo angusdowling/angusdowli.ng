@@ -28,7 +28,7 @@ Another trap we fall into is external validation. Sometimes you might want to im
 
 This external validation can be intoxicating. Hearing praise can be euphoric. Hearing criticism can be crushing.
 
-The problem with relying on others for validation is that you empower them to determine who you are, and what you're worth. Don't wait for validation before taking action, because it may never come.
+The problem with relying on others for validation is that you empower them to determine who you are, and what you're worth, and sometimes reinforces that the result of your actions is instrinsic to you. Worse, if you rely on validation before taking action, it may never come, and you'll be stuck hesitating.
 
 The truth is that confidence doesn’t come from being validated by others. It comes from giving yourself permission to try, to fail, and to keep going anyway.
 

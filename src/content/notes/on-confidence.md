@@ -4,9 +4,9 @@
 
 Confidence is a critical concept at the root of every action we take. When we speak up in a meeting, apply for a job, share an idea, or even do something as mundane as making our morning coffee, confidence is quietly helping us navigate those decisions.
 
-Confidence is something we only really notice when we lack it. When confidence is missing, things can start to feel insurmountable. You second-guess yourself. You hesitate.
+Confidence is something we only really notice when we lack it. When confidence is missing, things can start to feel insurmountable. You second-guess yourself. You hesitate. But what exactly is it that's missing?
 
-Given this, you could define confidence as having evidence that you can rely on yourself.
+I think of confidence as having evidence that you can rely on yourself.
 
 For simple things, that evidence is easy to build. When you eat your cereal, you’re confident the next spoonful will make it to your mouth. You don’t sit there in fear that it will be projectiled across the room (at least, I hope so!). That confidence comes from repetition. Each successfully eaten spoonful reinforces the expectation that the next one will go just as smoothly.
 
@@ -28,7 +28,7 @@ When emotions take over, failures are easy to misinterpret. If you struggle with
 
 Another trap we fall into is external validation. Sometimes you might want to impress your parents, your boss, your colleagues, your friends (or people you wish were your friends).
 
-This external validation can be intoxicating. Hearing praise can be euphoric. Hearing criticism can be crushing.
+This external validation can be intoxicating. Hearing praise can be euphoric. Hearing criticism can be crushing. It's easy to start using it as a measure of how well you're doing in life, but that's a trap.
 
 The problem with relying on others for validation is that you empower them to determine who you are and what you're worth. Worse, it reinforces the belief that your outcomes define you. And if you wait for validation before acting, it may never come.
 

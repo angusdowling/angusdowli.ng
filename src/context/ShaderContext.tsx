@@ -20,6 +20,8 @@ interface ShaderContextType {
 }
 
 const TRANSITION_DURATION = 0.8; // seconds
+// How much of the previous transition momentum to carry forward (0-1)
+const MOMENTUM_CARRY = 0.4;
 
 const ShaderContext = createContext<ShaderContextType | null>(null);
 
@@ -29,23 +31,63 @@ export function ShaderProvider({ children }: { children: ReactNode }) {
   const previousProject = useRef(0);
   const transitionStartTime = useRef<number | null>(null);
   const projectStartTime = useRef<number | null>(null);
+  // Track the last computed progress to carry momentum on rapid switches
+  const lastProgress = useRef(1);
+  const lastTime = useRef(0);
 
   const selectProject = useCallback((index: number) => {
-    previousProject.current = projectIndex.current;
+    // Calculate how much momentum to carry forward from current transition
+    let timeOffset = 0;
+
+    if (lastProgress.current < 1 && lastProgress.current > 0) {
+      // We're mid-transition - carry forward some momentum
+      // This prevents the jarring snap when quickly hovering through items
+      const carriedProgress = lastProgress.current * MOMENTUM_CARRY;
+      timeOffset = carriedProgress * TRANSITION_DURATION;
+
+      // If we were more than halfway through, use the target as the new previous
+      // This makes the visual transition smoother
+      if (lastProgress.current > 0.5) {
+        previousProject.current = projectIndex.current;
+      }
+      // Otherwise keep the existing previousProject for continuity
+    } else {
+      previousProject.current = projectIndex.current;
+    }
+
     projectIndex.current = index;
-    transitionStartTime.current = null; // Will be set on first getShaderState call
-    projectStartTime.current = null; // Will be set on first getShaderState call
+    // Set start time with offset to account for carried momentum
+    // Will be adjusted on first getShaderState call
+    transitionStartTime.current =
+      timeOffset > 0 ? lastTime.current - timeOffset : null;
+    projectStartTime.current = null;
   }, []);
 
   const clearProject = useCallback(() => {
-    previousProject.current = projectIndex.current;
+    // Calculate how much momentum to carry forward
+    let timeOffset = 0;
+
+    if (lastProgress.current < 1 && lastProgress.current > 0) {
+      const carriedProgress = lastProgress.current * MOMENTUM_CARRY;
+      timeOffset = carriedProgress * TRANSITION_DURATION;
+
+      if (lastProgress.current > 0.5) {
+        previousProject.current = projectIndex.current;
+      }
+    } else {
+      previousProject.current = projectIndex.current;
+    }
+
     projectIndex.current = 0;
-    transitionStartTime.current = null;
+    transitionStartTime.current =
+      timeOffset > 0 ? lastTime.current - timeOffset : null;
     projectStartTime.current = null;
   }, []);
 
   // Called every frame from the animation loop
   const getShaderState = useCallback((currentTime: number): ShaderState => {
+    lastTime.current = currentTime;
+
     // Initialize timestamps on first call after state change
     if (transitionStartTime.current === null) {
       transitionStartTime.current = currentTime;
@@ -65,6 +107,9 @@ export function ShaderProvider({ children }: { children: ReactNode }) {
       // Transition complete - sync previousProject to avoid unnecessary blending
       previousProject.current = projectIndex.current;
     }
+
+    // Store for momentum calculation on next switch
+    lastProgress.current = transitionProgress;
 
     // Calculate project time (time since project was selected)
     let projectTime = 0;

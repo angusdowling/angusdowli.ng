@@ -30,7 +30,7 @@ Another trap we fall into is external validation. Sometimes you might want to im
 
 This external validation can be intoxicating. Hearing praise can be euphoric. Hearing criticism can be crushing. It's easy to start using it as a measure of how well you're doing in life, but that's a trap.
 
-The problem with relying on others for validation is that you empower them to determine who you are and what you're worth. Worse, it reinforces the belief that your outcomes define you. And if you wait for validation before acting, it may never come.
+The problem with relying on others for validation is that you empower them to determine who you are and what you're worth. Worse, it reinforces the belief that your outcomes define you. And if you wait for validation before acting, you can get stuck treading water for something that may never come.
 
 As Timothée Chalamet so eloquently put it "You can be the master of your fate, you can be the captain of your soul, but you have to realise that life is coming from you and not at you, and that takes time".
 

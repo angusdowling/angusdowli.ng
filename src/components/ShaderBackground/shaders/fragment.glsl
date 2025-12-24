@@ -76,6 +76,8 @@ const float GRAIN_DARKNESS = 0.32;
 #include "projects/video-pipeline.glsl"
 #include "projects/content-intelligence.glsl"
 #include "projects/creative-automation.glsl"
+#include "projects/enterprise-dam.glsl"
+#include "projects/move-platform.glsl"
 
 // ============================================================================
 // PROJECT STATE ROUTING
@@ -93,6 +95,10 @@ float getProjectCloudDensity(int projectIndex, vec2 screenUV, vec2 mouseUV, floa
     return renderContentIntelligenceShape(screenUV, mouseUV, time, projectTime, blend);
   } else if (projectIndex == 3) {
     return renderCreativeAutomationShape(screenUV, mouseUV, time, projectTime, blend);
+  } else if (projectIndex == 4) {
+    return renderEnterpriseDAMShape(screenUV, mouseUV, time, projectTime, blend);
+  } else if (projectIndex == 5) {
+    return renderMovePlatformShape(screenUV, mouseUV, time, projectTime, blend);
   }
   
   return renderDefaultShape(screenUV, mouseUV, time);
@@ -108,6 +114,10 @@ float getProjectFloorIntensity(int projectIndex, FloorHit floorHit, vec2 mouseWo
     return calculateContentIntelligenceFloorIntensity(floorHit, mouseWorldPos, time, blend);
   } else if (projectIndex == 3) {
     return calculateCreativeAutomationFloorIntensity(floorHit, mouseWorldPos, time, blend);
+  } else if (projectIndex == 4) {
+    return calculateEnterpriseDAMFloorIntensity(floorHit, mouseWorldPos, time, blend);
+  } else if (projectIndex == 5) {
+    return calculateMovePlatformFloorIntensity(floorHit, mouseWorldPos, time, blend);
   }
   
   return calculateDefaultFloorIntensity(floorHit, mouseWorldPos, time);

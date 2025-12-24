@@ -29,7 +29,7 @@ interface ShaderBackgroundProps {
 
 export function ShaderBackground({
   className = "",
-  debug = true,
+  debug = false,
   resolutionScale = 0.6,
 }: ShaderBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);

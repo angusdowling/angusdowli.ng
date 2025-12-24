@@ -27,7 +27,7 @@
 
 /* Fade siblings on hover (laptop+) */
 @media (min-width: 1024px) {
-  .list:hover .item {
+  .list:has(.item:hover) .item {
     opacity: 0.3;
   }
 

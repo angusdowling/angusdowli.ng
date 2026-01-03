@@ -1,24 +1,32 @@
 // ============================================================================
 // CAMERA UTILITIES
+// Inlined to avoid struct returns which can be buggy on ANGLE/Windows
 // ============================================================================
 
-struct Camera {
-  vec3 position;
-  vec3 right;
-  vec3 up;
-  vec3 forward;
-};
-
-Camera createFloorCamera() {
-  Camera cam;
-  cam.position = FLOOR_CAMERA_POSITION;
-  cam.forward = normalize(FLOOR_CAMERA_TARGET - cam.position);
-  cam.right = normalize(cross(vec3(0.0, 1.0, 0.0), cam.forward));
-  cam.up = cross(cam.forward, cam.right);
-  return cam;
+// Pre-computed floor camera vectors (avoiding struct return)
+vec3 getFloorCameraPosition() {
+  return FLOOR_CAMERA_POSITION;
 }
 
-vec3 getRayDirection(Camera cam, vec2 uv, float fov) {
-  return normalize(cam.right * uv.x + cam.up * uv.y + cam.forward * fov);
+vec3 getFloorCameraForward() {
+  return normalize(FLOOR_CAMERA_TARGET - FLOOR_CAMERA_POSITION);
+}
+
+vec3 getFloorCameraRight() {
+  vec3 forward = getFloorCameraForward();
+  return normalize(cross(vec3(0.0, 1.0, 0.0), forward));
+}
+
+vec3 getFloorCameraUp() {
+  vec3 forward = getFloorCameraForward();
+  vec3 right = getFloorCameraRight();
+  return cross(forward, right);
+}
+
+vec3 getFloorRayDirection(vec2 uv, float fov) {
+  vec3 right = getFloorCameraRight();
+  vec3 up = getFloorCameraUp();
+  vec3 forward = getFloorCameraForward();
+  return normalize(right * uv.x + up * uv.y + forward * fov);
 }
 

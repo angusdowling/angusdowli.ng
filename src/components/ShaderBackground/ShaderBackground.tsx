@@ -1,6 +1,7 @@
 import { useRef, useMemo } from "react";
 import vertexShader from "./shaders/vertex.glsl";
-import fragmentShader from "./shaders/fragment.glsl";
+import fragmentShaderLite from "./shaders/fragment.glsl";
+import fragmentShaderFull from "./shaders/fragment-full.glsl";
 import {
   useAnimationFrame,
   useSmoothMouse,
@@ -36,19 +37,23 @@ export function ShaderBackground({
   const { getShaderState } = useShader();
 
   const uniformNames = useMemo(() => UNIFORM_NAMES, []);
-  const { gl, program, uniforms } = useWebGLProgram(
+
+  // Platform-based shader selection:
+  // - Windows/Direct3D: lite shader only (full shader compilation is too slow)
+  // - Everything else (macOS, Linux, etc.): full shader with all project effects
+  const { gl, program, uniforms, isWindowsANGLE } = useWebGLProgram(
     canvasRef,
     vertexShader,
-    fragmentShader,
-    uniformNames
+    fragmentShaderLite,
+    uniformNames,
+    fragmentShaderFull
   );
 
   useCanvasResize(canvasRef, gl, resolutionScale);
 
-  // Pause animation when canvas is not visible (scrolled out of view)
   const isVisible = useCanvasVisibility(canvasRef, {
     threshold: 0.01,
-    rootMargin: "100px", // Start animation 100px before entering viewport
+    rootMargin: "100px",
   });
 
   const mouse = useSmoothMouse({
@@ -72,7 +77,6 @@ export function ShaderBackground({
       gl.uniform1f(uniforms.iTime, time);
       gl.uniform4f(uniforms.iMouse, mousePos.x, mousePos.y, 1, 0);
 
-      // Project state uniforms
       gl.uniform1f(uniforms.iProjectIndex, shaderState.projectIndex);
       gl.uniform1f(uniforms.iProjectTime, shaderState.projectTime);
       gl.uniform1f(
@@ -86,5 +90,27 @@ export function ShaderBackground({
     { debug, paused: !isVisible }
   );
 
-  return <canvas ref={canvasRef} className={className} />;
+  return (
+    <>
+      <canvas ref={canvasRef} className={className} />
+      {debug && (
+        <div
+          style={{
+            position: "fixed",
+            top: 10,
+            right: 10,
+            background: "rgba(0,0,0,0.7)",
+            color: isWindowsANGLE ? "#ff4" : "#4f4",
+            padding: "4px 8px",
+            borderRadius: 4,
+            fontSize: 12,
+            fontFamily: "monospace",
+            zIndex: 9999,
+          }}
+        >
+          {isWindowsANGLE ? "⚡ Lite shader (Windows)" : "✓ Full shader"}
+        </div>
+      )}
+    </>
+  );
 }

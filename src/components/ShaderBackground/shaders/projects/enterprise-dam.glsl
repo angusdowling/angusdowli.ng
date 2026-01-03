@@ -23,45 +23,34 @@ const float DAM_CLOUD_THRESHOLD_HIGH = 0.5;
 
 float renderSmokeWisps(vec2 uv, float time) {
   float intensity = 0.0;
-  float d = 0.0;  // distance marched
-  float s = 0.0;  // signed distance to surface
+  float d = 0.0;
   
-  // Ray march accumulating glow
-  for (float i = 0.0; i < 100.0; i++) {
-    // Create position that travels into the screen
-    vec3 p = vec3(uv * d, d + time + time);
+  // ANGLE-optimized: Only 16 iterations (was 50)
+  // Larger step size compensates for fewer samples
+  for (int i = 0; i < 16; i++) {
+    vec3 p = vec3(uv * d, d + time * 2.0);
     
-    // Twist the xy plane based on z depth
-    // This creates the spiral/tornado effect
+    // Twist effect
     float angle = p.z * 0.2;
-    p.xy = mat2(cos(angle), -sin(angle), sin(angle), cos(angle)) * p.xy;
+    float c = cos(angle), s = sin(angle);
+    p.xy = mat2(c, -s, s, c) * p.xy;
     
-    // Base diagonal wave pattern
-    s = sin(p.y + p.x);
+    // Simplified noise: 3 octaves instead of 5
+    float dist = sin(p.y + p.x);
+    dist -= abs(dot(cos(p + time * 0.3), vec3(0.3)));
+    dist -= abs(dot(cos(p * 2.0 + time * 0.3), vec3(0.15)));
+    dist -= abs(dot(cos(p * 4.0 + time * 0.3), vec3(0.075)));
     
-    // Subtract layered noise to create wispy detail
-    // This is the key to the smoke look - fractal noise at multiple scales
-    for (float n = 1.0; n < 32.0; n *= 2.0) {
-      vec3 noisePos = p * n + time * 0.3;
-      s -= abs(dot(cos(noisePos), vec3(0.3))) / n;
-    }
-    
-    // Distance step - smaller near surfaces (where s is small)
-    float stepDist = 0.01 + abs(s) * 0.8;
-    
-    // Accumulate glow - brighter where s is near zero (the wisp lines)
-    intensity += 1.0 / stepDist;
+    float stepDist = 0.05 + abs(dist) * 1.5;
+    intensity += 2.0 / stepDist;
     
     d += stepDist;
-    if (d > 8.0) break;
+    if (d > 6.0) break;
   }
   
-  // Normalize with center focus
   float centerDist = length(uv);
-  intensity = intensity / 20000.0 / (centerDist * 0.5 + 0.08);
-  
-  // Apply tanh for soft clamping
-  intensity = tanh(intensity * 3.0);
+  intensity = intensity / 3000.0 / (centerDist * 0.5 + 0.1);
+  intensity = tanh(intensity * 2.5);
   
   return clamp(intensity, 0.0, 1.0);
 }

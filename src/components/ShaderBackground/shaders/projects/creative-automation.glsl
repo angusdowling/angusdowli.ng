@@ -12,7 +12,7 @@
 const float CA_FLOW_SPEED = 0.05;          // Speed of current drift
 const float CA_WAVE_FREQUENCY = 3.0;       // Base frequency of wave pattern
 const float CA_WAVE_AMPLITUDE = 0.35;      // Wave intensity
-const int CA_OCTAVES = 6;                  // FBM detail level
+const int CA_OCTAVES = 3;                  // FBM detail level (reduced from 6 for ANGLE)
 
 // Visual style
 const float CA_SHAPE_RADIUS = 0.55;        // Circular mask size
@@ -88,17 +88,15 @@ float caFbm(vec2 p, float freq, float amp) {
 // ============================================================================
 
 float caCurrentPattern(vec2 p, float time) {
-  // Apply vertical drift (templates flowing to variants)
+  // Apply vertical drift
   vec2 driftP = p;
   driftP.y += time * CA_DRIFT_SPEED;
   
-  // Time-offset pattern for animation
   vec2 animP = driftP - time * CA_FLOW_SPEED;
   
-  // Triple domain warping for deep organic flow
+  // Double domain warping (was triple - reduced for ANGLE)
   float warp1 = caFbm(animP, CA_WAVE_FREQUENCY, CA_WAVE_AMPLITUDE);
-  float warp2 = caFbm(driftP + warp1, CA_WAVE_FREQUENCY, CA_WAVE_AMPLITUDE);
-  float pattern = caFbm(driftP - warp2, CA_WAVE_FREQUENCY, CA_WAVE_AMPLITUDE);
+  float pattern = caFbm(driftP + warp1, CA_WAVE_FREQUENCY, CA_WAVE_AMPLITUDE);
   
   return pattern;
 }
@@ -110,22 +108,20 @@ float caCurrentPattern(vec2 p, float time) {
 // ============================================================================
 
 float caBayerMatrix8x8(int x, int y) {
-  // Computed Bayer 8x8 pattern
-  int index = y * 8 + x;
+  // Compute Bayer 8x8 pattern mathematically (ANGLE/Windows compatible)
+  // This avoids dynamic array indexing which crashes on Windows
+  int v = 0;
+  int mx = x ^ y;
   
-  // Bayer pattern values (0-63 mapped to 0-1)
-  float pattern[64] = float[64](
-     0.0, 48.0, 12.0, 60.0,  3.0, 51.0, 15.0, 63.0,
-    32.0, 16.0, 44.0, 28.0, 35.0, 19.0, 47.0, 31.0,
-     8.0, 56.0,  4.0, 52.0, 11.0, 59.0,  7.0, 55.0,
-    40.0, 24.0, 36.0, 20.0, 43.0, 27.0, 39.0, 23.0,
-     2.0, 50.0, 14.0, 62.0,  1.0, 49.0, 13.0, 61.0,
-    34.0, 18.0, 46.0, 30.0, 33.0, 17.0, 45.0, 29.0,
-    10.0, 58.0,  6.0, 54.0,  9.0, 57.0,  5.0, 53.0,
-    42.0, 26.0, 38.0, 22.0, 41.0, 25.0, 37.0, 21.0
-  );
+  // Build the Bayer value bit by bit
+  if ((mx & 1) != 0) v += 32;
+  if ((mx & 2) != 0) v += 8;
+  if ((mx & 4) != 0) v += 2;
+  if ((y & 1) != 0) v += 16;
+  if ((y & 2) != 0) v += 4;
+  if ((y & 4) != 0) v += 1;
   
-  return pattern[index] / 64.0;
+  return float(v) / 64.0;
 }
 
 float caDither(vec2 screenUV, float value) {

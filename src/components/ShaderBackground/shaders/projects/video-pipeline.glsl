@@ -4,8 +4,8 @@
 // ============================================================================
 
 // Rutt-Etra configuration
-const float SCANLINES = 40.0;           // Number of horizontal scanlines
-const float LINE_WIDTH = 0.10;           // Line thickness in screen space
+const int SCANLINES = 20;               // Number of scanlines (reduced from 40 for ANGLE)
+const float LINE_WIDTH = 0.15;           // Line thickness (increased for fewer scanlines)
 const float EXTRUSION = 0.35;           // How much signal displaces lines vertically
 const float Y_SCALE = 0.65;             // Vertical compression of the display
 const float SIGNAL_SPEED = 0.4;         // Animation speed of the signal
@@ -14,7 +14,7 @@ const float PERSPECTIVE = 0.3;          // Fake perspective tilt
 
 // Signal generation config
 const float SIGNAL_SCALE = 3.0;         // Noise frequency
-const float SIGNAL_OCTAVES = 3.0;       // Detail level
+const int SIGNAL_OCTAVES = 2;           // Detail level (reduced from 3 for ANGLE)
 const float FLOW_SPEED = 0.6;           // Horizontal flow of data
 
 // Visual tuning
@@ -39,9 +39,9 @@ float generateSignal(vec2 uv, float time) {
   float amplitude = 1.0;
   float frequency = SIGNAL_SCALE;
   
-  for (float i = 0.0; i < SIGNAL_OCTAVES; i++) {
+  for (int i = 0; i < SIGNAL_OCTAVES; i++) {
     vec2 flowUV = uv * frequency;
-    flowUV.x += time * FLOW_SPEED * (1.0 + i * 0.3);
+    flowUV.x += time * FLOW_SPEED * (1.0 + float(i) * 0.3);
     flowUV.y += time * 0.1;
     
     signal += snoise(flowUV) * amplitude;
@@ -66,9 +66,9 @@ vec2 generateSignalWithGradient(vec2 uv, float time) {
   float amplitude = 1.0;
   float frequency = SIGNAL_SCALE;
   
-  for (float i = 0.0; i < SIGNAL_OCTAVES; i++) {
+  for (int i = 0; i < SIGNAL_OCTAVES; i++) {
     vec2 flowUV = uv * frequency;
-    flowUV.x += time * FLOW_SPEED * (1.0 + i * 0.3);
+    flowUV.x += time * FLOW_SPEED * (1.0 + float(i) * 0.3);
     flowUV.y += time * 0.1;
     
     // Get noise value AND analytical gradient in one call
@@ -115,14 +115,14 @@ float renderRuttEtra(vec2 screenUV, float time) {
   float aaWidth = 0.015 * LINE_WIDTH;
   float halfAAWidth = aaWidth * 0.5;
   float sampleUVx = uv.x * 0.5 + 0.5;
-  float invScanlines = 1.0 / SCANLINES;
+  float invScanlines = 1.0 / float(SCANLINES);
   float maxDisplacement = EXTRUSION * 0.5;
   float cullMargin = aaWidth * 2.0 + 0.05;
   
   // Render back-to-front (Painter's Algorithm)
   // Start from top (furthest) to bottom (nearest)
-  for (float i = SCANLINES; i >= 0.0; i--) {
-    float normIndex = i * invScanlines;
+  for (int i = SCANLINES; i >= 0; i--) {
+    float normIndex = float(i) * invScanlines;
     
     // Quick bounds check - skip lines that can't affect this pixel
     float baseY = (normIndex - 0.5) * Y_SCALE;
@@ -258,8 +258,8 @@ float renderRuttEtraLineGrid(vec2 worldPosition, float gridScale, vec2 mouseWorl
   
   float outputIntensity = 0.0;
   
-  // Check several rows around current position (lines can displace quite far)
-  for (int rowOffset = -3; rowOffset <= 3; rowOffset++) {
+  // Check nearby rows (reduced range for ANGLE)
+  for (int rowOffset = -2; rowOffset <= 2; rowOffset++) {
     float rowIndex = nearestRow + float(rowOffset);
     
     // Get the displaced Y position of this line at our X coordinate

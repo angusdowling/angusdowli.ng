@@ -83,88 +83,78 @@ float renderDotGrid(vec2 worldPosition, float gridScale, vec2 mouseWorldPos) {
 
 // ============================================================================
 // LETTER "A" PATTERN
+// Uses if/else instead of const array to avoid ANGLE/Windows dynamic indexing crash
 // ============================================================================
 
-const vec2 LETTER_A_PATH[32] = vec2[32](
-  // Bottom horizontal stroke
-  vec2(1.0, 0.0), vec2(1.0, 0.0), vec2(1.0, 0.0), vec2(1.0, 0.0), vec2(1.0, 0.0),
-  // Left leg going up
-  vec2(-0.5, 1.0), vec2(-0.5, 1.0),
-  // Crossbar left
-  vec2(-1.0, 0.0),
-  // Continue up left
-  vec2(0.5, 1.0), vec2(0.5, 1.0),
-  // Down to crossbar
-  vec2(0.5, -1.0), vec2(0.5, -1.0), vec2(0.5, -1.0), vec2(0.5, -1.0),
-  // Crossbar right
-  vec2(1.0, 0.0), vec2(1.0, 0.0),
-  // Right leg going up
-  vec2(-0.5, 1.0), vec2(-0.5, 1.0), vec2(-0.5, 1.0), vec2(-0.5, 1.0),
-  vec2(-0.5, 1.0), vec2(-0.5, 1.0), vec2(-0.5, 1.0), vec2(-0.5, 1.0),
-  // Right leg going down
-  vec2(-0.5, -1.0), vec2(-0.5, -1.0), vec2(-0.5, -1.0), vec2(-0.5, -1.0),
-  vec2(-0.5, -1.0), vec2(-0.5, -1.0), vec2(-0.5, -1.0), vec2(-0.5, -1.0)
-);
-
 vec2 getLetterDirection(int step) {
-  return LETTER_A_PATH[step - (step / 32) * 32];
+  // Use float mod for consistent cross-platform behavior
+  int idx = int(mod(float(step), 32.0));
+  
+  // Bottom horizontal stroke (0-4)
+  if (idx < 5) return vec2(1.0, 0.0);
+  // Left leg going up (5-6)
+  if (idx < 7) return vec2(-0.5, 1.0);
+  // Crossbar left (7)
+  if (idx == 7) return vec2(-1.0, 0.0);
+  // Continue up left (8-9)
+  if (idx < 10) return vec2(0.5, 1.0);
+  // Down to crossbar (10-13)
+  if (idx < 14) return vec2(0.5, -1.0);
+  // Crossbar right (14-15)
+  if (idx < 16) return vec2(1.0, 0.0);
+  // Right leg going up (16-23)
+  if (idx < 24) return vec2(-0.5, 1.0);
+  // Right leg going down (24-31)
+  return vec2(-0.5, -1.0);
 }
 
 // Render animated letter path
+// Simplified loop structure for ANGLE/Windows compatibility
 float renderLetterPath(vec2 worldPosition, float gridScale, vec2 mouseWorldPos, float time) {
   const float LINE_WIDTH = 0.006;
   const float LETTER_SCALE = 1.67;
   const float CYCLE_DURATION = 10.0;
-  const int MAX_SEGMENTS = 32;
-  const float VISIBLE_WINDOW = float(MAX_SEGMENTS) + 20.0;
+  const float VISIBLE_WINDOW = 52.0;  // 32 + 20
   
   float cycleProgress = fract(time / CYCLE_DURATION);
-  float totalTravelDistance = float(MAX_SEGMENTS) + VISIBLE_WINDOW;
+  float totalTravelDistance = 84.0;  // 32 + 52
   float animationHead = cycleProgress * totalTravelDistance;
   float animationTail = animationHead - VISIBLE_WINDOW;
   
   // Starting position for the letter
-  vec2 startingCell = vec2(-4.0, 9.0) + vec2(-3.0, -4.0) * 1.0;
+  vec2 startingCell = vec2(-7.0, 5.0);
   vec2 startingWorldPos = (startingCell + 0.5) / gridScale;
   
   // Early exit if too far from letter
-  float maxLetterExtent = float(MAX_SEGMENTS) * LETTER_SCALE / gridScale;
+  float maxLetterExtent = 32.0 * LETTER_SCALE / gridScale;
   if (length(worldPosition - startingWorldPos) > maxLetterExtent + 0.5) {
     return 0.0;
   }
   
   float outputIntensity = 0.0;
-  int firstVisibleSegment = int(max(0.0, animationTail - 2.0));
-  int lastVisibleSegment = int(min(float(MAX_SEGMENTS), animationHead + 2.0));
-  
-  // Advance to start segment
   vec2 currentCell = startingCell;
-  for (int segmentIndex = 0; segmentIndex < firstVisibleSegment && segmentIndex < 35; segmentIndex++) {
-    currentCell += getLetterDirection(segmentIndex) * LETTER_SCALE;
-  }
   
-  // Draw visible segments
-  for (int loopIndex = 0; loopIndex < 35; loopIndex++) {
-    int segmentIndex = firstVisibleSegment + loopIndex;
-    if (segmentIndex >= lastVisibleSegment) break;
+  // Fixed iteration count for ANGLE compatibility - no variable bounds or breaks
+  for (int i = 0; i < 32; i++) {
+    float segmentPosition = float(i);
     
-    vec2 segmentDirection = getLetterDirection(segmentIndex) * LETTER_SCALE;
+    // Calculate visibility (replaces variable loop bounds)
+    float isVisible = step(animationTail - 2.0, segmentPosition) * step(segmentPosition, animationHead + 2.0);
+    
+    vec2 segmentDirection = getLetterDirection(i) * LETTER_SCALE;
     vec2 nextCell = currentCell + segmentDirection;
     
+    // Only compute if potentially visible (but always execute to avoid divergent flow)
     vec2 segmentStart = getDotWorldPosition(currentCell, gridScale, mouseWorldPos);
     vec2 segmentEnd = getDotWorldPosition(nextCell, gridScale, mouseWorldPos);
     
-    // Calculate visibility with fade in/out
-    float segmentPosition = float(segmentIndex);
     float fadeInAmount = smoothstep(0.0, 2.0, animationHead - segmentPosition);
     float fadeOutAmount = smoothstep(0.0, 2.0, segmentPosition - animationTail);
-    float segmentVisibility = fadeInAmount * fadeOutAmount;
+    float segmentVisibility = fadeInAmount * fadeOutAmount * isVisible;
     
-    if (segmentVisibility > 0.01) {
-      float distanceToLine = distanceToLineSegment(worldPosition, segmentStart, segmentEnd);
-      float lineIntensity = 1.0 - smoothstep(LINE_WIDTH * 0.5, LINE_WIDTH, distanceToLine);
-      outputIntensity = max(outputIntensity, lineIntensity * segmentVisibility * 0.35);
-    }
+    float distanceToLine = distanceToLineSegment(worldPosition, segmentStart, segmentEnd);
+    float lineIntensity = 1.0 - smoothstep(LINE_WIDTH * 0.5, LINE_WIDTH, distanceToLine);
+    outputIntensity = max(outputIntensity, lineIntensity * segmentVisibility * 0.35);
     
     currentCell = nextCell;
   }
@@ -176,16 +166,18 @@ float renderLetterPath(vec2 worldPosition, float gridScale, vec2 mouseWorldPos, 
 // FLOOR TRACING
 // ============================================================================
 
+// Using float instead of bool for ANGLE/Windows compatibility
 struct FloorHit {
-  bool hit;
+  float hit;  // 1.0 = hit, 0.0 = no hit (bool can cause issues on some ANGLE versions)
   vec3 position;
   float distance;
 };
 
 FloorHit traceFloor(vec3 rayOrigin, vec3 rayDirection, float time) {
   FloorHit result;
-  result.hit = false;
+  result.hit = 0.0;
   result.distance = 0.0;
+  result.position = vec3(0.0);
   
   // Check if ray points toward floor
   if (rayDirection.y > -0.02) {
@@ -206,7 +198,7 @@ FloorHit traceFloor(vec3 rayOrigin, vec3 rayDirection, float time) {
     rayDistance += heightDelta / rayDirection.y;
   }
   
-  result.hit = true;
+  result.hit = 1.0;
   result.position = rayOrigin + rayDirection * rayDistance;
   result.position.y = calculateWaveHeight(result.position.xz, time);
   result.distance = rayDistance;
